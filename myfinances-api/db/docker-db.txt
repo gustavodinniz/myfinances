@@ -1,0 +1,1 @@
+sudo docker run -d --name myFinances-db -p 5439:5432 -e POSTGRES_DB=myFinances-db -e POSTGRES_USER=admin -e POSTGRES_PASSWORD=123456 postgres:11
