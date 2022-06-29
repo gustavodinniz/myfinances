@@ -1,1 +1,25 @@
 sudo docker run -d --name myFinances-db -p 5439:5432 -e POSTGRES_DB=myFinances-db -e POSTGRES_USER=admin -e POSTGRES_PASSWORD=123456 postgres:11
+
+create schema financial;
+
+CREATE TABLE financial.tb_users
+(
+  id bigserial NOT NULL PRIMARY KEY,
+  name character varying(150),
+  email character varying(100),
+  password character varying(20),
+  register_date date default now()
+);
+
+CREATE TABLE financial.tb_releases
+(
+  id bigserial NOT NULL PRIMARY KEY ,
+  description character varying(100) NOT NULL,
+  month integer NOT NULL,
+  year integer NOT NULL,
+  value numeric(16,2),
+  type character varying(20) check ( type in ('REVENUE', 'EXPENSE')) not null,
+  status character varying(20)check ( status in ('PENDING', 'CANCELED', 'MADE_EFFECTIVE')) not null,
+  user_id bigint REFERENCES financial.tb_users (id),
+  register_date date default now()
+);
